@@ -3,7 +3,8 @@
 
 
 // CListDlg ¶Ô»°¿ò
-
+class CIOCPServer;
+struct ClientContext;
 class CListDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CListDlg)
@@ -20,8 +21,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	
-	CListCtrl m_ListCtrl;
+	CIOCPServer *m_pIocpServer; //  This is the pointer of the iocp server
+	CListCtrl m_ListCtrl;		//	This is the handle of list ctrl 
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	virtual BOOL OnInitDialog();
+	void OnReceive(ClientContext *pContext);
 };

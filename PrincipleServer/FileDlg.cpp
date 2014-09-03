@@ -32,3 +32,8 @@ END_MESSAGE_MAP()
 
 
 // CFileDlg 消息处理程序
+void CFileDlg::OnReceive(ClientContext* pContext)
+{
+	//TODO: add message process their.
+	return;
+}

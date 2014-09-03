@@ -4,7 +4,7 @@
 
 #pragma once
 #include "ChildView.h"
-
+class CIOCPServer;
 class CMainFrame : public CFrameWnd
 {
 	
@@ -15,10 +15,12 @@ protected:
 
 // 特性
 public:
+	CIOCPServer* m_pServer;  // This pointer is the first server pointer.
 
 // 操作
 public:
-
+	/*Start iocp server*/
+	void StartIocpServer(UINT nPort);
 // 重写
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -38,6 +40,8 @@ public:
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetFocus(CWnd *pOldWnd);
+	
+
 	DECLARE_MESSAGE_MAP()
 
 };

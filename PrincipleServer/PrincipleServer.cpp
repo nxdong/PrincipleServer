@@ -105,6 +105,8 @@ BOOL CPrincipleServerApp::InitInstance()
 	// 唯一的一个窗口已初始化，因此显示它并对其进行更新
 	pFrame->ShowWindow(SW_SHOW);
 	pFrame->UpdateWindow();
+	UINT nPort = 9527;
+	pFrame->StartIocpServer(nPort);
 	// 仅当具有后缀时才调用 DragAcceptFiles
 	//  在 SDI 应用程序中，这应在 ProcessShellCommand 之后发生
 	return TRUE;

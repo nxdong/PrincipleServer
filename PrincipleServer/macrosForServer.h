@@ -14,5 +14,7 @@
 /* user defined message,when view was crated ,this 
 	 message transmit to view class. In order to 
 	 creat tab ctrl*/
-#define UM_VIEW_CREATED (WM_USER + 101)
-
+#define UM_VIEW_CREATED		(WM_USER + 101)
+/* this is the id of the tab ctrl 
+	it will used  in message macro */
+#define IDC_TAB_CTRL		(WM_USER + 102)

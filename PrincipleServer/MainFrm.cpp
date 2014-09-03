@@ -25,6 +25,7 @@ END_MESSAGE_MAP()
 CMainFrame::CMainFrame()
 {
 	// TODO: 在此添加成员初始化代码
+	m_pServer = NULL;
 }
 
 CMainFrame::~CMainFrame()
@@ -89,4 +90,13 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 
 	// 否则，执行默认处理
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+}
+
+void CMainFrame::StartIocpServer(UINT nPort)
+{
+	//TODO:
+
+
+	m_wndView.m_pServer = m_pServer; //transmit server pointer to view.
+	return;
 }

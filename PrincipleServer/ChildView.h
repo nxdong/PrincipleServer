@@ -9,7 +9,7 @@
 #include "ShellDlg.h"
 #include "FileDlg.h"
 // CChildView 窗口
-
+class CIOCPServer;
 class CChildView : public CWnd
 {
 // 构造
@@ -18,10 +18,12 @@ public:
 
 // 特性
 public:
+
 	CPriTabCtrl m_TabCtrl;		//	Create tab control
 	CListDlg	m_ListDlg;		//	Create list dialog
 	CShellDlg	m_ShellDlg;		//	Create shell dialog
 	CFileDlg	m_FileDlg;		//	Create file dialog
+	CIOCPServer *m_pServer; //  This was the pointer of the iocp server
 // 操作
 public:
 
@@ -43,5 +45,7 @@ public:
 	/* When view was created ,this function was called.Please initialize
 	in this function*/
 	afx_msg LRESULT OnViewCreated(WPARAM wParam , LPARAM lParam);
+	/* This function will called when user select tab*/
+	afx_msg void OnTcnSelchange(NMHDR *pNMHDR, LRESULT *pResult);
 };
 

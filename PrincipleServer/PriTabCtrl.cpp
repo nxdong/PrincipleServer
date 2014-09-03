@@ -21,10 +21,12 @@ CPriTabCtrl::~CPriTabCtrl()
 
 
 BEGIN_MESSAGE_MAP(CPriTabCtrl, CTabCtrl)
+	
 END_MESSAGE_MAP()
 
 
 
 // CPriTabCtrl 消息处理程序
+
 
 

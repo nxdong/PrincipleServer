@@ -15,6 +15,7 @@
 
 CChildView::CChildView()
 {
+	m_pServer == NULL;
 }
 
 CChildView::~CChildView()
@@ -27,6 +28,7 @@ BEGIN_MESSAGE_MAP(CChildView, CWnd)
 	ON_WM_SIZE()
 	ON_WM_CREATE()
 	ON_MESSAGE(UM_VIEW_CREATED,OnViewCreated)
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB_CTRL,OnTcnSelchange)
 END_MESSAGE_MAP()
 
 
@@ -68,10 +70,7 @@ void CChildView::OnSize(UINT nType, int cx, int cy)
 	
 	CRect tabRect;
 	m_TabCtrl.GetClientRect(&tabRect);
-	tabRect.left += 2;                  
-	tabRect.right -= 2;   
-	tabRect.top += 22;   
-	tabRect.bottom -= 2; 
+	tabRect.top += 24;   
 	m_ListDlg.MoveWindow(tabRect);
 	m_ShellDlg.MoveWindow(tabRect);
 	m_FileDlg.MoveWindow(tabRect);
@@ -93,7 +92,7 @@ LRESULT CChildView::OnViewCreated(WPARAM wParam , LPARAM lParam)
 {
 	CRect viewRect;
 	GetClientRect(&viewRect);
-	m_TabCtrl.Create(TCS_TABS | TCS_FIXEDWIDTH | WS_CHILD | WS_VISIBLE,viewRect,this,NULL);
+	m_TabCtrl.Create(TCS_TABS | TCS_FIXEDWIDTH | WS_CHILD | WS_VISIBLE,viewRect,this,IDC_TAB_CTRL);
 	m_TabCtrl.InsertItem(0,_T("Computer"));
 	m_TabCtrl.InsertItem(1,_T("Cmd"));
 	m_TabCtrl.InsertItem(2,_T("File"));
@@ -101,10 +100,7 @@ LRESULT CChildView::OnViewCreated(WPARAM wParam , LPARAM lParam)
 	m_ShellDlg.Create(IDD_SHELL_DLG,&m_TabCtrl);
 	m_FileDlg.Create(IDD_FILE_DLG,&m_TabCtrl);
 	// move dialogs matching tab control
-	viewRect.left += 2;                  
-	viewRect.right -= 2;   
-	viewRect.top += 22;   
-	viewRect.bottom -= 2; 
+	viewRect.top += 24;   
 	m_ListDlg.MoveWindow(viewRect);
  	m_ShellDlg.MoveWindow(viewRect);
  	m_FileDlg.MoveWindow(viewRect);
@@ -114,4 +110,30 @@ LRESULT CChildView::OnViewCreated(WPARAM wParam , LPARAM lParam)
  	m_FileDlg.ShowWindow(FALSE);
 
 	return 0;
+}
+
+void CChildView::OnTcnSelchange(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0; 
+	switch(m_TabCtrl.GetCurSel())
+	{
+	case 0:
+		m_ListDlg.ShowWindow(TRUE);
+		m_ShellDlg.ShowWindow(FALSE);
+		m_FileDlg.ShowWindow(FALSE);
+		break;
+	case 1:
+		m_ListDlg.ShowWindow(FALSE);
+		m_ShellDlg.ShowWindow(TRUE);
+		m_FileDlg.ShowWindow(FALSE);
+		break;
+	case 2:
+		m_ListDlg.ShowWindow(FALSE);
+		m_ShellDlg.ShowWindow(FALSE);
+		m_FileDlg.ShowWindow(TRUE);
+		break;
+	default:
+		break;
+	}
 }
