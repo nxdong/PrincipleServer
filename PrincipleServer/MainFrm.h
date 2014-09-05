@@ -5,6 +5,7 @@
 #pragma once
 #include "ChildView.h"
 class CIOCPServer;
+struct ClientContext;
 class CMainFrame : public CFrameWnd
 {
 	
@@ -21,6 +22,7 @@ public:
 public:
 	/*Start iocp server*/
 	void StartIocpServer(UINT nPort);
+	static void WINAPI NotifyInformation(ClientContext *pContext);
 // ÖØÐ´
 public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);

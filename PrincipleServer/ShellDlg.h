@@ -2,7 +2,8 @@
 
 
 // CShellDlg 对话框
-
+class CIOCPServer;
+struct ClientContext;
 class CShellDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CShellDlg)
@@ -18,4 +19,6 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	void OnReceive(ClientContext* pContext);
 };

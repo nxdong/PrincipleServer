@@ -137,3 +137,7 @@ void CChildView::OnTcnSelchange(NMHDR *pNMHDR, LRESULT *pResult)
 		break;
 	}
 }
+void CChildView::OnReceive(ClientContext* pContext)
+{
+	return;
+}

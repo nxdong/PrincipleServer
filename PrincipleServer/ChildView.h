@@ -10,6 +10,7 @@
 #include "FileDlg.h"
 // CChildView ´°¿Ú
 class CIOCPServer;
+class ClientContext;
 class CChildView : public CWnd
 {
 // ¹¹Ôì
@@ -47,5 +48,7 @@ public:
 	afx_msg LRESULT OnViewCreated(WPARAM wParam , LPARAM lParam);
 	/* This function will called when user select tab*/
 	afx_msg void OnTcnSelchange(NMHDR *pNMHDR, LRESULT *pResult);
+	void OnReceive(ClientContext* pContext);
+
 };
 

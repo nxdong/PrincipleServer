@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="IOCPServer">
+      <UniqueIdentifier>{9e2d8da2-a737-4a67-b4eb-707c8a02eadc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -42,9 +45,6 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="PriTabCtrl.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -60,6 +60,9 @@
     <ClInclude Include="FileDlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>IOCPServer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrincipleServer.cpp">
@@ -74,9 +77,6 @@
     <ClCompile Include="ChildView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Buffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="PriTabCtrl.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -88,6 +88,9 @@
     </ClCompile>
     <ClCompile Include="FileDlg.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>IOCPServer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
