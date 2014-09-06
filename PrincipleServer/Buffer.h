@@ -29,6 +29,8 @@ private:
 	BOOL AllocateBuffer(UINT nNeedSize);				  // AllocateMemory 
 public:
 	// functions
+	CBuffer();
+	~CBuffer();
 	void AddFirstFlag(BYTE &bFirstFlag);
 	void AddSecondFlag(BYTE &bSecondFlag);
 	void AddFlags(BYTE &bFirstFlag,BYTE &bSecondFlag);
