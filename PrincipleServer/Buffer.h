@@ -8,12 +8,13 @@
 *********************************************************************/
 #pragma once
 #include "windows.h"
-
+#include "zlib/zlib.h"
+#pragma comment(lib,"zlib/zlib.lib")
 class CBuffer
 {
 public:
 	// members
-	BYTE m_header[4];			// store the header of the packet 'p' 'r' 'i' 'c'
+	BYTE m_header[4];			// store the header of the packet 'p' 'r' 'i' 'n'
 	BYTE m_firstFlag;			// store the first flag.
 	BYTE m_secondFlag;			// store the second flag.
 
@@ -22,11 +23,14 @@ public:
 	PBYTE m_recvPacket;			// the bytes stream received,will be process.
 
 	UINT m_size;				// size of all the buffer.
-	UINT m_nDataSize;			// size of data will be compressed.(include flags)
-	UINT m_nDataCompressedSize;	// size of compressed data.m_size = this + 4 + 4 + 4.
+	UINT m_nDataSize;			// size of bytes data will be compressed.
+
+	UINT m_nDataAllSize;		// size of all data.  m_size = this + 4 + 4 + 4.
+	UINT m_nUnCompressSize;		// size of uncompress data (their 12 bytes not compress)
+	UINT m_nCompressSize;		// size of compressed data
 
 private:
-	BOOL AllocateBuffer(UINT nNeedSize);				  // AllocateMemory 
+	BOOL AllocateBuffer(PBYTE pBuffer,UINT nNeedSize);				  // AllocateMemory 
 public:
 	// functions
 	CBuffer();
@@ -36,7 +40,7 @@ public:
 	void AddFlags(BYTE &bFirstFlag,BYTE &bSecondFlag);
 	void AddData(const BYTE *const pData,UINT nSize);     // this size is the byte size
 	BOOL PreparePackate();                                // call this function before send message.
-	BOOL GetMessage();									  // call this function before use information.
-	BOOL Fresh();										  // reset all information.									
+	BOOL GetInformation();									  // call this function before use information.
+	void Fresh();										  // reset all information.									
 };
 
