@@ -63,6 +63,9 @@
     <ClInclude Include="Buffer.h">
       <Filter>IOCPServer</Filter>
     </ClInclude>
+    <ClInclude Include="IOCPServer.h">
+      <Filter>IOCPServer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PrincipleServer.cpp">
@@ -90,6 +93,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Buffer.cpp">
+      <Filter>IOCPServer</Filter>
+    </ClCompile>
+    <ClCompile Include="IOCPServer.cpp">
       <Filter>IOCPServer</Filter>
     </ClCompile>
   </ItemGroup>

@@ -107,10 +107,8 @@ BOOL CBuffer::PreparePackate()
 	// m_size is the size of the all buffer . when send ,it contains compressed data
 	m_size = 12 + ndestLen;
 	m_sendPacket = new BYTE [m_size];
-	m_header[0] = 'p';
-	m_header[1] = 'r';
-	m_header[2] = 'i';
-	m_header[3] = 'n';
+	BYTE header[] = {'p','r','i','n'};
+	memcpy(m_header,header,sizeof(header));
 
 	// 4 is the length of header p r i n
 	memcpy(m_sendPacket,m_header,4);

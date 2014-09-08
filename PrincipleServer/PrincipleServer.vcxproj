@@ -103,6 +103,7 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="FileDlg.h" />
+    <ClInclude Include="IOCPServer.h" />
     <ClInclude Include="ListDlg.h" />
     <ClInclude Include="macrosForServer.h" />
     <ClInclude Include="MainFrm.h" />
@@ -117,6 +118,7 @@
     <ClCompile Include="Buffer.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="FileDlg.cpp" />
+    <ClCompile Include="IOCPServer.cpp" />
     <ClCompile Include="ListDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="PrincipleServer.cpp" />
