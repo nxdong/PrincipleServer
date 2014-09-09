@@ -49,6 +49,7 @@ BOOL CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, int nMaxConnections, int nP
 	m_pNotifyProc = pNotifyProc;
 	m_nMaxConnections = nMaxConnections;
 	m_pThreadPoolCallBack = CompletionCallback;
+	m_nPort = nPort;
 	// create listen socket
 	m_listenSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	if (INVALID_SOCKET == m_listenSocket)
@@ -62,6 +63,23 @@ BOOL CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, int nMaxConnections, int nP
 	if (NULL == m_listenIO)
 	{
 		return FALSE;
+	}
+
+	// service address information ,used in binding socket
+	sockaddr_in ServerAddress;
+	ZeroMemory((char *)&ServerAddress, sizeof(ServerAddress));
+	ServerAddress.sin_family = AF_INET;
+	ServerAddress.sin_addr.s_addr = INADDR_ANY;         
+	ServerAddress.sin_port = htons(m_nPort);                       
+	// bind
+	if (SOCKET_ERROR == bind(m_listenSocket,(sockaddr*)&ServerAddress,sizeof(ServerAddress)))
+	{
+		return FALSE;
+	}
+	// listen
+	if (SOCKET_ERROR == listen(m_listenSocket,SOMAXCONN))
+	{
+		return false;
 	}
 
 

@@ -45,6 +45,8 @@ public:
 	PTP_WIN32_IO_CALLBACK m_pThreadPoolCallBack;
 	// flag that indicates running. run TRUE ,stop FALSE.
 	BOOL		m_isRunning;
+	// server listen port 
+	UINT		m_nPort;
 private:
 	// Called before start.
 	BOOL PrepareLibary();
