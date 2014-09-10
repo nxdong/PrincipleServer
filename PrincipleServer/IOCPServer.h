@@ -8,6 +8,7 @@
 *********************************************************************/
 
 #include "Buffer.h"
+#include <Mswsock.h>
 // used in thread pool 
 #define THREAD_POOL_MAX_THREAD 4
 #define THREAD_POOL_MIN_THREAD 1
@@ -47,9 +48,16 @@ public:
 	BOOL		m_isRunning;
 	// server listen port 
 	UINT		m_nPort;
+	// AcceptEx  function pointer
+	LPFN_ACCEPTEX                m_AcceptEx;       
+	// GetAcceptExSockaddrs function pointer
+	LPFN_GETACCEPTEXSOCKADDRS    m_GetAcceptExSockAddrs; 
 private:
 	// Called before start.
 	BOOL PrepareLibary();
+	// Get function pointer.AcceptEx and GetAcceptExSockaddrs
+	BOOL GetFunctionPointer();
+
 public:
 	// define functions
 	CIOCPServer();
@@ -63,7 +71,7 @@ public:
 		ULONG IoResult,
 		ULONG_PTR NumberOfBytesTransferred,
 		PTP_IO  pIo);
-
+	
 
 
 

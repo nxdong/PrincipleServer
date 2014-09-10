@@ -81,7 +81,51 @@ BOOL CIOCPServer::Initialize(NOTIFYPROC pNotifyProc, int nMaxConnections, int nP
 	{
 		return false;
 	}
+	// get AcceptEx and GetAcceptExSockaddrs functions pointers
+	GetFunctionPointer();
+
 
 
 	return TRUE;
+}
+BOOL CIOCPServer::GetFunctionPointer()
+{
+	// AcceptEx and GetAcceptExSockaddrs GUID，used to export function pointer
+	GUID GuidAcceptEx = WSAID_ACCEPTEX;  
+	GUID GuidGetAcceptExSockAddrs = WSAID_GETACCEPTEXSOCKADDRS; 
+	// 获取AcceptEx函数指针
+	DWORD dwBytes = 0;  
+	if(SOCKET_ERROR == WSAIoctl(
+		m_listenSocket, 
+		SIO_GET_EXTENSION_FUNCTION_POINTER, 
+		&GuidAcceptEx, 
+		sizeof(GuidAcceptEx), 
+		&m_AcceptEx, 
+		sizeof(m_AcceptEx), 
+		&dwBytes, 
+		NULL, 
+		NULL))  
+	{  
+		closesocket(m_listenSocket);
+		WSACleanup();
+		return FALSE;  
+	}  
+
+	// get GetAcceptExSockAddrs  pointer
+	if(SOCKET_ERROR == WSAIoctl(
+		m_listenSocket, 
+		SIO_GET_EXTENSION_FUNCTION_POINTER, 
+		&GuidGetAcceptExSockAddrs,
+		sizeof(GuidGetAcceptExSockAddrs), 
+		&m_GetAcceptExSockAddrs, 
+		sizeof(m_GetAcceptExSockAddrs),   
+		&dwBytes, 
+		NULL, 
+		NULL))  
+	{  
+		closesocket(m_listenSocket);
+		WSACleanup();
+		return FALSE; 
+	}  
+
 }
