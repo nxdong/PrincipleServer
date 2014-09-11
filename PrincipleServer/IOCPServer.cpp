@@ -129,3 +129,10 @@ BOOL CIOCPServer::GetFunctionPointer()
 	}  
 
 }
+
+BOOL CIOCPServer::PostAccept(PER_IO_CONTEXT* pAcceptIoContext)
+{
+	ASSERT( INVALID_SOCKET!=m_listenSocket);
+
+	return TRUE;
+}
