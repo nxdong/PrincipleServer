@@ -10,27 +10,17 @@
 #include "Buffer.h"
 #include <Mswsock.h>
 // used in thread pool 
-#define THREAD_POOL_MAX_THREAD 4
-#define THREAD_POOL_MIN_THREAD 1
-#define MAX_BUFFER_LEN        8192  
+#define THREAD_POOL_MAX_THREAD		4
+#define THREAD_POOL_MIN_THREAD		1
+#define MAX_BUFFER_LEN				8192  
+// the number of post accept times when start iocp server
+#define MAX_POST_ACCEPT             6
 //////////////////////////////////////////////////////////////////////////
 // define Client Context struct
 //////////////////////////////////////////////////////////////////////////
 
 
-struct ClientContext
-{
-	// store the client socket
-	SOCKET m_socket;		
-	// the handle of thread pool IO .
-	PTP_IO m_threadPoolIo;
-	// the buffer for send
-	CBuffer m_sendBuffer;
-	// the buffer for receive
-	CBuffer m_recvBuffer;
 
-
-};
 
 typedef enum _OPERATION_TYPE  
 {  
@@ -75,14 +65,81 @@ typedef struct _PER_IO_CONTEXT
 
 } PER_IO_CONTEXT, *PPER_IO_CONTEXT;
 
+struct ClientContext
+{
+	// store the client socket
+	SOCKET m_socket;		
+	// the handle of thread pool IO .
+	PTP_IO m_threadPoolIo;
+	// the buffer for send
+	CBuffer m_sendBuffer;
+	// the buffer for receive
+	CBuffer m_recvBuffer;
+
+	SOCKADDR_IN m_ClientAddr;                              // 客户端的地址
+	CArray<_PER_IO_CONTEXT*> m_arrayIoContext;             // 客户端网络操作的上下文数据，
+														   // 也就是说对于每一个客户端Socket，是可以在上面同时投递多个IO请求的
+	// 初始化
+	ClientContext()
+	{
+		m_socket = INVALID_SOCKET;
+		memset(&m_ClientAddr, 0, sizeof(m_ClientAddr)); 
+	}
+
+	// 释放资源
+	~ClientContext()
+	{
+		if( m_socket!=INVALID_SOCKET )
+		{
+			closesocket( m_socket );
+			m_socket = INVALID_SOCKET;
+		}
+		// 释放掉所有的IO上下文数据
+		for( int i=0;i<m_arrayIoContext.GetCount();i++ )
+		{
+			delete m_arrayIoContext.GetAt(i);
+		}
+		m_arrayIoContext.RemoveAll();
+	}
+
+	// 获取一个新的IoContext
+	_PER_IO_CONTEXT* GetNewIoContext()
+	{
+		_PER_IO_CONTEXT* p = new _PER_IO_CONTEXT;
+
+		m_arrayIoContext.Add( p );
+
+		return p;
+	}
+
+	// 从数组中移除一个指定的IoContext
+	void RemoveContext( _PER_IO_CONTEXT* pContext )
+	{
+		ASSERT( pContext!=NULL );
+
+		for( int i=0;i<m_arrayIoContext.GetCount();i++ )
+		{
+			if( pContext==m_arrayIoContext.GetAt(i) )
+			{
+				delete pContext;
+				pContext = NULL;
+				m_arrayIoContext.RemoveAt(i);				
+				break;
+			}
+		}
+	}
+
+
+
+};
 
 typedef void (CALLBACK* NOTIFYPROC)(ClientContext*, UINT nCode);
 class CIOCPServer
 {
 private:
 public:
-	// listen socket .
-	SOCKET		m_listenSocket;
+	// listen socket context .   
+	ClientContext*	m_pListenContext;
 	// User's notify process
 	NOTIFYPROC	m_pNotifyProc;
 	// max connections number
@@ -119,7 +176,7 @@ public:
 		ULONG IoResult,
 		ULONG_PTR NumberOfBytesTransferred,
 		PTP_IO  pIo);
-	BOOL PostAccept(PER_IO_CONTEXT* pAcceptIoContext);
+	BOOL PostAccept(PER_IO_CONTEXT *pAcceptIoContext);
 
 
 	
