@@ -133,7 +133,7 @@ struct ClientContext
 
 };
 
-typedef void (CALLBACK* NOTIFYPROC)(ClientContext*, UINT nCode);
+typedef void (CALLBACK* NOTIFYPROC)(ClientContext*);
 class CIOCPServer
 {
 private:
@@ -155,7 +155,11 @@ public:
 	// AcceptEx  function pointer
 	LPFN_ACCEPTEX                m_AcceptEx;       
 	// GetAcceptExSockaddrs function pointer
-	LPFN_GETACCEPTEXSOCKADDRS    m_GetAcceptExSockAddrs; 
+	LPFN_GETACCEPTEXSOCKADDRS    m_GetAcceptExSockAddrs;
+	// used in add to client context list.
+	CRITICAL_SECTION             m_csContextList;  
+	// store alive client context.
+	CArray<ClientContext*>  m_arrayClientContext; 
 private:
 	// Called before start.
 	BOOL PrepareLibary();
@@ -177,11 +181,17 @@ public:
 		ULONG_PTR NumberOfBytesTransferred,
 		PTP_IO  pIo);
 	BOOL PostAccept(PER_IO_CONTEXT *pAcceptIoContext);
+	BOOL DoAccept(ClientContext* pSocketContext,PER_IO_CONTEXT* pIoContext);
+	void AddToContextList(ClientContext *pSocketContext );
+	void RemoveContext(ClientContext *pSocketContext);
+	// clear all client context
+	void ClearContextList();
+	// post recv 
+	BOOL PostRecv(PER_IO_CONTEXT* pIoContext);
+	// process recv
+	BOOL DoRecv( ClientContext* pSocketContext, PER_IO_CONTEXT* pIoContext );
 
-
-	
-
-
+	BOOL IsSocketAlive(SOCKET s);
 
 };
 
