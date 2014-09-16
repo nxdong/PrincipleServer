@@ -10,7 +10,7 @@
 #include "FileDlg.h"
 // CChildView ´°¿Ú
 class CIOCPServer;
-class ClientContext;
+struct ClientContext;
 class CChildView : public CWnd
 {
 // ¹¹Ôì
