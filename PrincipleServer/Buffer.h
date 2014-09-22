@@ -41,6 +41,6 @@ public:
 	void AddData(const BYTE *const pData,UINT nSize);     // this size is the byte size
 	BOOL PreparePackate();                                // call this function before send message.
 	BOOL GetInformation();									  // call this function before use information.
-	void Fresh();										  // reset all information.									
+	void Fresh();										  // reset all information.	
 };
 
